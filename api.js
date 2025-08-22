@@ -1,5 +1,5 @@
 // API configuration
-const API_BASE_URL = 'https://your-backend-url.onrender.com'; // Replace with your actual backend URL
+const API_BASE_URL = 'https://evertrust-backend.onrender.com/'; // Replace with your actual backend URL
 
 // Helper function for API calls
 async function apiCall(endpoint, options = {}) {
