@@ -1,53 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #f4f4f9;
-    }
-    .login-container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      width: 300px;
-    }
-    h2 {
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #45a049;
-    }
-    .error {
-      color: red;
-      text-align: center;
-      margin-top: 10px;
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="login-container">
@@ -57,38 +15,36 @@
       <input type="password" id="password" placeholder="Password" required />
       <button type="submit">Login</button>
     </form>
-    <p id="error-message" class="error"></p>
+    <p id="error-message" style="color: red; display:none;"></p>
   </div>
 
-  <script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+  <script>
+    const supabaseUrl = "https://accwaznnowfcpwszfrkf.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjY3dhem5ub3dmY3B3c3pmcmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4OTUzMjMsImV4cCI6MjA3MTQ3MTMyM30.2QOQ8gKTopjVA5C9oCGdzXJzElspk7MIPVnP21ZmTNM";
 
-    // ✅ Your Supabase project credentials
-    const supabaseUrl = 'https://accwaznnowfcpwszfrkf.supabase.co'
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjY3dhem5ub3dmY3B3c3pmcmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4OTUzMjMsImV4cCI6MjA3MTQ3MTMyM30.2QOQ8gKTopjVA5C9oCGdzXJzElspk7MIPVnP21ZmTNM'
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    const supabase = createClient(supabaseUrl, supabaseKey)
+    const form = document.getElementById("login-form");
+    const errorMsg = document.getElementById("error-message");
 
-    const loginForm = document.getElementById('login-form')
-    const errorMessage = document.getElementById('error-message')
-
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault()
-      const email = document.getElementById('email').value
-      const password = document.getElementById('password').value
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
 
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password
-      })
+        password,
+      });
 
       if (error) {
-        errorMessage.textContent = error.message
+        errorMsg.style.display = "block";
+        errorMsg.textContent = error.message;
       } else {
-        // ✅ Redirect after login success
-        window.location.href = "index.html"
+        // ✅ redirect to dashboard instead of index
+        window.location.href = "dashboard.html";
       }
-    })
+    });
   </script>
 </body>
 </html>
